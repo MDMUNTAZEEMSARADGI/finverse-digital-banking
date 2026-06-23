@@ -63,7 +63,6 @@ frontend/
 ├── package.json
 └── vite.config.js
 
-
 └── vite.config.js
 Infrastructure Folder
 infrastructure/
@@ -76,7 +75,6 @@ infrastructure/
 │
 └── github-actions/
 
-
 Documentation Folder
 docs/
 │
@@ -85,3 +83,5 @@ docs/
 ├── database/
 ├── diagrams/
 └── requirements/
+
+GET:http://localhost:5001/health
