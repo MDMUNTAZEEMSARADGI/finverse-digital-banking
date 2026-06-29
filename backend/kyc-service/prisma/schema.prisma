@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+enum KycStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Kyc {
+  id              String      @id @default(uuid())
+  userId          String      @unique
+
+  aadhaarNumber   String      @unique
+  panNumber       String      @unique
+
+  addressLine1    String
+  addressLine2    String?
+
+  city            String
+  state           String
+  country         String
+  postalCode      String
+
+  aadhaarImageUrl String?
+  panImageUrl     String?
+  selfieImageUrl  String?
+
+  status          KycStatus   @default(PENDING)
+  rejectionReason String?
+
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
