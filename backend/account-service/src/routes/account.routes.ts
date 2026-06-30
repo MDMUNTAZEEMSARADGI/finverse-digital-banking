@@ -10,6 +10,7 @@ import {
   depositAmount,
   withdrawAmount,
   getInternalAccount,
+  getAccountsByUser,
 } from "../controllers/account.controller";
 
 import { authenticate } from "../middlewares/auth.middleware";
@@ -32,5 +33,8 @@ router.patch("/internal/:id/deposit", depositAmount);
 router.get("/internal/:id", getInternalAccount);
 
 router.patch("/internal/:id/withdraw", withdrawAmount);
+
+// for transaction history
+router.get("/internal/user/:userId", getAccountsByUser);
 
 export default router;

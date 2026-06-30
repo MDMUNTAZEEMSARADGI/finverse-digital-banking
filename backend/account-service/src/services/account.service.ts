@@ -124,44 +124,32 @@ export const deposit = async (id: string, amount: number) => {
 };
 
 //withdraw in transaction
-export const withdraw =
-  async (
-    id: string,
-    amount: number
-  ) => {
-    const account =
-      await prisma.account.findUnique({
-        where: {
-          id,
-        },
-      });
+export const withdraw = async (id: string, amount: number) => {
+  const account = await prisma.account.findUnique({
+    where: {
+      id,
+    },
+  });
 
-    if (!account) {
-      throw new Error(
-        "Account not found"
-      );
-    }
+  if (!account) {
+    throw new Error("Account not found");
+  }
 
-    if (
-      account.balance <
-      amount
-    ) {
-      throw new Error(
-        "Insufficient balance"
-      );
-    }
+  if (account.balance < amount) {
+    throw new Error("Insufficient balance");
+  }
 
-    return prisma.account.update({
-      where: {
-        id,
+  return prisma.account.update({
+    where: {
+      id,
+    },
+    data: {
+      balance: {
+        decrement: amount,
       },
-      data: {
-        balance: {
-          decrement: amount,
-        },
-      },
-    });
-  };
+    },
+  });
+};
 
 // internal authorization
 export const getAccountById = async (id: string) => {
@@ -177,3 +165,12 @@ export const getAccountById = async (id: string) => {
 
   return account;
 };
+
+export const getAccountsForUser = async (userId: string) => {
+  return prisma.account.findMany({
+    where: {
+      userId,
+    },
+  });
+};
+
