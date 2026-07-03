@@ -31,11 +31,9 @@ export const registerUser = async (data: any) => {
   return user;
 };
 
-
-export const loginUser = async (
-  email: string,
-  password: string
-) => {
+export const loginUser = async (email: string, password: string) => {
+  // console.log("users ", email);
+  // return "done";
   const user = await prisma.user.findUnique({
     where: {
       email,
@@ -46,11 +44,7 @@ export const loginUser = async (
     throw new Error("Invalid credentials");
   }
 
-  const isPasswordCorrect =
-    await bcrypt.compare(
-      password,
-      user.password
-    );
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
   if (!isPasswordCorrect) {
     throw new Error("Invalid credentials");
@@ -59,43 +53,31 @@ export const loginUser = async (
   return user;
 };
 
+export const validateRefreshToken = async (token: string) => {
+  const storedToken = await prisma.refreshToken.findUnique({
+    where: {
+      token,
+    },
+    include: {
+      user: true,
+    },
+  });
 
-export const validateRefreshToken =
-  async (token: string) => {
-    const storedToken =
-      await prisma.refreshToken.findUnique({
-        where: {
-          token,
-        },
-        include: {
-          user: true,
-        },
-      });
+  if (!storedToken) {
+    throw new Error("Invalid refresh token");
+  }
 
-    if (!storedToken) {
-      throw new Error(
-        "Invalid refresh token"
-      );
-    }
+  if (storedToken.expiresAt < new Date()) {
+    throw new Error("Refresh token expired");
+  }
 
-    if (
-      storedToken.expiresAt <
-      new Date()
-    ) {
-      throw new Error(
-        "Refresh token expired"
-      );
-    }
+  return storedToken.user;
+};
 
-    return storedToken.user;
-    };
-  
-
-    export const logoutUser =
-  async (token: string) => {
-    await prisma.refreshToken.deleteMany({
-      where: {
-        token,
-      },
-    });
-  };
+export const logoutUser = async (token: string) => {
+  await prisma.refreshToken.deleteMany({
+    where: {
+      token,
+    },
+  });
+};

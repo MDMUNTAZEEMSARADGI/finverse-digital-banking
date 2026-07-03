@@ -52,6 +52,8 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   try {
+    // res.json({ ss: "SADs" });
+    // return "done";
     const { email, password } = req.body;
 
     const user = await loginUser(email, password);

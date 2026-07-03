@@ -14,17 +14,10 @@ app.use(express.json());
 app.get("/health", (_, res) => {
   res.json({
     success: true,
-    service: "kyc-service",
+    service: "kyc-service 5002",
   });
 });
 
-
-app.use(
-  "/api/kyc",
-  kycRoutes
-);
+app.use("/api/kyc", kycRoutes);
 
 export default app;
-
-
-

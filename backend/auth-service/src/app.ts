@@ -14,11 +14,20 @@ app.use(morgan("dev"));
 app.get("/health", (_, res) => {
   res.json({
     success: true,
-    message: "Auth Service Running",
+    message: "Auth Service Running dfsdf",
   });
 });
 
+app.get("/test", (_re, res) => {
+  res.json({
+    success: true,
+    message: "testasdasf",
+  });
+});
 app.use("/api", routes);
 
+// app.post("/api/auth/login", (req, res) => {
+//   res.send("della");
+// });
 
 export default app;
