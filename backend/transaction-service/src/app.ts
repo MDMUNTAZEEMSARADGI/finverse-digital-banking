@@ -4,6 +4,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import transactionRoutes from "./routes/transaction.routes";
+import statementRoutes from "./routes/statement.routes";
 
 const app = express();
 
@@ -15,14 +16,12 @@ app.use(morgan("dev"));
 app.get("/health", (req, res) => {
   res.json({
     success: true,
-    service:
-      "transaction-service",
+    service: "transaction-service",
   });
 });
 
-app.use(
-  "/api/transactions",
-  transactionRoutes
-);
+app.use("/api/transactions", transactionRoutes);
+
+app.use("/api/statements", statementRoutes);
 
 export default app;
