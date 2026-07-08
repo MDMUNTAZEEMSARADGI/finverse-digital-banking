@@ -3,11 +3,12 @@ import { Routes, Route } from "react-router-dom";
 import Login from "../features/auth/pages/Login";
 import Register from "../features/auth/pages/Register";
 
-import Dashboard from "../pages/dashboard/Dashboard";
+import Dashboard from "../features/dashboard/pages/Dashboard";
 
-import NotFound from "../pages/errors/NotFound";
+// import NotFound from "../pages/errors/NotFound";
 
 import DashboardLayout from "../layout/DashboardLayout";
+import Accounts from "../features/account/pages/Accounts";
 
 const AppRoutes = () => {
   return (
@@ -18,9 +19,11 @@ const AppRoutes = () => {
 
       <Route element={<DashboardLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
+
+        <Route path="/accounts" element={<Accounts/>} />
       </Route>
 
-      <Route path="*" element={<NotFound />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   );
 };
