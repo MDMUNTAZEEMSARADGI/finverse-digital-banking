@@ -9,7 +9,7 @@ import {
   LogOut,
 } from "lucide-react";
 
-import SidebarItem from "./Sidebaritem";
+import SidebarItem from "./SidebarItem";
 
 const Sidebar = () => {
   return (

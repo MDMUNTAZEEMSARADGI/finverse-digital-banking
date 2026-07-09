@@ -9,6 +9,8 @@ import Dashboard from "../features/dashboard/pages/Dashboard";
 
 import DashboardLayout from "../layout/DashboardLayout";
 import Accounts from "../features/account/pages/Accounts";
+import Transactions from "../features/transaction/pages/Transactions";
+import Statements from "../features/statements/pages/Statements";
 
 const AppRoutes = () => {
   return (
@@ -20,7 +22,11 @@ const AppRoutes = () => {
       <Route element={<DashboardLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
 
-        <Route path="/accounts" element={<Accounts/>} />
+        <Route path="/accounts" element={<Accounts />} />
+
+        <Route path="/transactions" element={<Transactions />} />
+
+        <Route path="/statements" element={<Statements />} />
       </Route>
 
       {/* <Route path="*" element={<NotFound />} /> */}
