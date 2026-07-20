@@ -1,11 +1,22 @@
 import axios from "axios";
 
+import type {
+  AxiosError,
+  InternalAxiosRequestConfig,
+} from "axios";
+
+interface RetryRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
+
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
+
+/* ---------------- Request ---------------- */
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
@@ -16,5 +27,59 @@ api.interceptors.request.use((config) => {
 
   return config;
 });
+
+/* ---------------- Response ---------------- */
+
+api.interceptors.response.use(
+  (response) => response,
+
+  async (error: AxiosError) => {
+    const originalRequest = error.config as RetryRequestConfig;
+
+    if (
+      error.response?.status === 401 &&
+      originalRequest &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+
+      try {
+        const refreshToken =
+          localStorage.getItem("refreshToken");
+
+        if (!refreshToken) {
+          throw new Error("Refresh token missing");
+        }
+
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/auth/refresh`,
+          {
+            refreshToken,
+          }
+        );
+
+        const newAccessToken =
+          response.data.accessToken;
+
+        localStorage.setItem(
+          "accessToken",
+          newAccessToken
+        );
+
+        originalRequest.headers.Authorization =
+          `Bearer ${newAccessToken}`;
+
+        return api(originalRequest);
+      } catch {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+
+        window.location.href = "/login";
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default api;

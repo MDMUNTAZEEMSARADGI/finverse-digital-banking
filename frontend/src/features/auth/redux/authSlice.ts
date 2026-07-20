@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { loginUser, registerUser } from "./authThunks";
+import { loginUser, registerUser, loadUser } from "./authThunks";
 
 import type { User } from "../types/auth.types";
 
@@ -31,6 +31,9 @@ const authSlice = createSlice({
       state.user = null;
 
       state.token = null;
+
+      state.loading = false;
+      state.error = null;
 
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
@@ -84,6 +87,32 @@ const authSlice = createSlice({
         state.loading = false;
 
         state.error = action.payload as string;
+      })
+
+      .addCase(loadUser.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(loadUser.fulfilled, (state, action) => {
+        state.loading = false;
+
+        state.user = action.payload.user;
+
+        state.error = null;
+      })
+
+      .addCase(loadUser.rejected, (state, action) => {
+        state.loading = false;
+
+        state.user = null;
+
+        state.token = null;
+
+        state.error = action.payload as string;
+
+        localStorage.removeItem("accessToken");
+
+        localStorage.removeItem("refreshToken");
       });
   },
 });

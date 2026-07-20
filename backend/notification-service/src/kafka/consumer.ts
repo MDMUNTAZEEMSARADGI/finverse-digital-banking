@@ -1,31 +1,58 @@
 import { kafka } from "./client";
+
 import { createNotification } from "../services/notification.service";
 
+import type {
+  NotificationEvent
+} from "../types/notification.types";
+
+
 export const startConsumer = async () => {
+
   const consumer = kafka.consumer({
-    groupId: "notification-group",
+    groupId:"notification-group",
   });
+
 
   await consumer.connect();
 
+
   await consumer.subscribe({
-    topic: "transaction.created",
-    fromBeginning: true,
+    topic:"transaction.created",
+    fromBeginning:true,
   });
 
-  console.log("Notification Consumer Connected");
+
+  console.log(
+    "Notification Consumer Connected"
+  );
+
 
   await consumer.run({
-    eachMessage: async ({ message }) => {
-      if (!message.value) {
+
+    eachMessage: async ({message})=>{
+
+
+      if(!message.value){
         return;
       }
 
-      const data = JSON.parse(message.value.toString());
 
-      await createNotification(data.accountId, data.type, data.amount);
+      const event =
+        JSON.parse(
+          message.value.toString()
+        ) as NotificationEvent;
 
-      console.log("Notification Saved");
-    },
+
+      await createNotification(event);
+
+
+      console.log(
+        "Notification Saved"
+      );
+
+    }
+
   });
+
 };

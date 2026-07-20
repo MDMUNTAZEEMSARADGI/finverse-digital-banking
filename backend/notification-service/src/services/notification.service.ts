@@ -1,34 +1,76 @@
 import Notification from "../models/notification.model";
 
+import type { NotificationEvent } from "../types/notification.types";
+
 export const createNotification = async (
-  userId: string,
-  type: string,
-  amount: number,
+  event: NotificationEvent
 ) => {
-  let title = "";
-  let message = "";
-
-  switch (type) {
-    case "DEPOSIT":
-      title = "Deposit Successful";
-      message = `₹${amount} deposited successfully`;
-      break;
-
-    case "WITHDRAW":
-      title = "Withdrawal Successful";
-      message = `₹${amount} withdrawn successfully`;
-      break;
-
-    case "TRANSFER":
-      title = "Transfer Successful";
-      message = `₹${amount} transferred successfully`;
-      break;
-  }
-
   return Notification.create({
-    userId,
-    type,
-    title,
-    message,
+    userId: event.userId,
+
+    type: event.type,
+
+    title: event.title,
+
+    message: event.message,
+
+    metadata: event.metadata ?? {},
   });
+};
+
+export const getNotifications = async (
+  userId: string
+) => {
+  return Notification.find({
+    userId,
+  }).sort({
+    createdAt: -1,
+  });
+};
+
+export const getUnreadNotifications = async (
+  userId: string
+) => {
+  return Notification.find({
+    userId,
+
+    status: "UNREAD",
+  }).sort({
+    createdAt: -1,
+  });
+};
+
+export const markAsRead = async (
+  id: string
+) => {
+  return Notification.findByIdAndUpdate(
+    id,
+    {
+      status: "READ",
+    },
+    {
+      new: true,
+    }
+  );
+};
+
+export const markAllAsRead = async (
+  userId: string
+) => {
+  return Notification.updateMany(
+    {
+      userId,
+
+      status: "UNREAD",
+    },
+    {
+      status: "READ",
+    }
+  );
+};
+
+export const deleteNotification = async (
+  id: string
+) => {
+  return Notification.findByIdAndDelete(id);
 };

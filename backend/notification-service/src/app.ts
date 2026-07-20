@@ -1,20 +1,18 @@
 import express from "express";
-import cors from "cors";
-import helmet from "helmet";
-import morgan from "morgan";
+
+import notificationRoutes from "./routes/notification.routes";
 
 const app = express();
 
-app.use(express.json());
-app.use(cors());
-app.use(helmet());
-app.use(morgan("dev"));
 
-app.get("/health", (_, res) => {
-  res.json({
-    success: true,
-    service: "notification-service",
-  });
-});
+app.use(express.json());
+
+
+// Notification APIs
+app.use(
+  "/api/notifications",
+  notificationRoutes
+);
+
 
 export default app;

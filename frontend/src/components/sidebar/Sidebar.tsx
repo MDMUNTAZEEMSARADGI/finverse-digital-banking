@@ -6,10 +6,12 @@ import {
   Bell,
   User,
   Settings,
-  LogOut,
+
+ 
 } from "lucide-react";
 
 import SidebarItem from "./SidebarItem";
+import LogoutButton from "../../features/auth/pages/LogoutButton";
 
 const Sidebar = () => {
   return (
@@ -34,13 +36,14 @@ const Sidebar = () => {
 
         <SidebarItem to="/kyc" icon={ShieldCheck} label="KYC" />
 
-        <SidebarItem to="/notifications" icon={Bell} label="Notifications" />
-
         <SidebarItem to="/profile" icon={User} label="Profile" />
 
         <SidebarItem to="/settings" icon={Settings} label="Settings" />
 
-        <SidebarItem to="/login" icon={LogOut} label="Logout" />
+        <SidebarItem to="/notifications" icon={Bell} label="Notifications" />
+
+        {/* <SidebarItem to="/login" icon={LogOut} label="Logout" /> */}
+        <LogoutButton />
       </nav>
     </aside>
   );

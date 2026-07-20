@@ -2,6 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { login, register } from "../api/auth.api";
 
+import { getProfile } from "../api/profile.api";
+
 import type {
   LoginRequest,
   RegisterRequest,
@@ -36,3 +38,19 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
+
+export const loadUser = createAsyncThunk(
+  "auth/loadUser",
+
+  async (_, thunkAPI) => {
+    try {
+      return await getProfile();
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message ??
+        "Unable to load user"
+      );
+    }
+  }
+);
+
