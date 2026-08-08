@@ -10,6 +10,12 @@ import statementReducer from "../features/statements/redux/statementSlice";
 
 import notificationReducer from "../features/notification/redux/notificationSlice";
 
+import kycReducer from "../features/kyc/redux/kycSlice";
+
+import dashboardReducer from "../features/dashboard/redux/dashboardSlice";
+
+import adminKycReducer from "../features/admin/redux/adminKycSlice";
+
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -17,6 +23,9 @@ export const store = configureStore({
     transactions: transactionReducer,
     statements: statementReducer,
     notifications: notificationReducer,
+    kyc: kycReducer,
+    dashboard: dashboardReducer,
+    adminKyc: adminKycReducer
   },
 });
 

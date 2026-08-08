@@ -40,10 +40,19 @@ export const depositMoney = async (accountId: string, amount: number) => {
     messages: [
       {
         value: JSON.stringify({
-          transactionId: transaction.id,
-          accountId,
-          amount,
+          userId: account.userId,
+
           type: "DEPOSIT",
+
+          title: "Deposit Successful",
+
+          message: `₹${amount} deposited successfully`,
+
+          metadata: {
+            transactionId: transaction.id,
+            accountId,
+            amount,
+          },
         }),
       },
     ],
@@ -93,10 +102,19 @@ export const withdrawMoney = async (accountId: string, amount: number) => {
     messages: [
       {
         value: JSON.stringify({
-          transactionId: transaction.id,
-          accountId,
-          amount,
+          userId: account.userId,
+
           type: "WITHDRAW",
+
+          title: "Withdrawal Successful",
+
+          message: `₹${amount} withdrawn successfully`,
+
+          metadata: {
+            transactionId: transaction.id,
+            accountId,
+            amount,
+          },
         }),
       },
     ],
@@ -219,23 +237,16 @@ export const getTransactionHistory = async (userId: string) => {
   });
 };
 
+export const getTransactionById = async (id: string) => {
+  const transaction = await prisma.transaction.findUnique({
+    where: {
+      id,
+    },
+  });
 
-export const getTransactionById =
-  async (
-    id: string
-  ) => {
-    const transaction =
-      await prisma.transaction.findUnique({
-        where: {
-          id,
-        },
-      });
+  if (!transaction) {
+    throw new Error("Transaction not found");
+  }
 
-    if (!transaction) {
-      throw new Error(
-        "Transaction not found"
-      );
-    }
-
-    return transaction;
-  };
+  return transaction;
+};

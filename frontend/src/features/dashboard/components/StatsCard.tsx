@@ -7,7 +7,7 @@ const StatsCard = ({
   color,
   change,
 }: StatsCardProps) => {
-  return (
+  return (  
     <div className="rounded-2xl bg-white p-6 shadow-md transition hover:shadow-lg">
       <div className="flex items-center justify-between">
         <div>

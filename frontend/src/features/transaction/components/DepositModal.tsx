@@ -9,10 +9,7 @@ interface Props {
   onClose: () => void;
 }
 
-const DepositModal = ({
-  open,
-  onClose,
-}: Props) => {
+const DepositModal = ({ open, onClose }: Props) => {
   const dispatch = useAppDispatch();
 
   const [accountId, setAccountId] = useState("");
@@ -25,7 +22,7 @@ const DepositModal = ({
       depositMoney({
         accountId,
         amount: Number(amount),
-      })
+      }),
     );
 
     if (depositMoney.fulfilled.match(result)) {
@@ -36,27 +33,19 @@ const DepositModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-
       <div className="w-full max-w-md rounded-xl bg-white p-6">
-
         <div className="mb-6 flex items-center justify-between">
-
-          <h2 className="text-2xl font-bold">
-            Deposit Money
-          </h2>
+          <h2 className="text-2xl font-bold">Deposit Moneyawsedf</h2>
 
           <button onClick={onClose}>
             <X />
           </button>
-
         </div>
 
         <input
           placeholder="Account ID"
           value={accountId}
-          onChange={(e) =>
-            setAccountId(e.target.value)
-          }
+          onChange={(e) => setAccountId(e.target.value)}
           className="mb-4 w-full rounded-lg border p-3"
         />
 
@@ -64,9 +53,7 @@ const DepositModal = ({
           type="number"
           placeholder="Amount"
           value={amount}
-          onChange={(e) =>
-            setAmount(e.target.value)
-          }
+          onChange={(e) => setAmount(e.target.value)}
           className="mb-6 w-full rounded-lg border p-3"
         />
 
@@ -76,9 +63,7 @@ const DepositModal = ({
         >
           Deposit
         </button>
-
       </div>
-
     </div>
   );
 };

@@ -30,29 +30,23 @@ export const startConsumer = async () => {
 
   await consumer.run({
 
-    eachMessage: async ({message})=>{
+  eachMessage: async ({ message }) => {
+  try {
+    if (!message.value) return;
 
+    const event = JSON.parse(
+      message.value.toString()
+    ) as NotificationEvent;
 
-      if(!message.value){
-        return;
-      }
+    console.log("Received Event:", event);
 
+    await createNotification(event);
 
-      const event =
-        JSON.parse(
-          message.value.toString()
-        ) as NotificationEvent;
-
-
-      await createNotification(event);
-
-
-      console.log(
-        "Notification Saved"
-      );
-
-    }
-
+    console.log("Notification Saved");
+  } catch (error) {
+    console.error(error);
+  }
+}
   });
 
 };

@@ -22,9 +22,7 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { loading, token, error } = useAppSelector(
-    (state) => state.auth
-  );
+  const { loading, token, error } = useAppSelector((state) => state.auth);
 
   const {
     register,
@@ -39,15 +37,28 @@ const Login = () => {
 
     if (loginUser.fulfilled.match(result)) {
       toast.success("Login Successful");
-      navigate("/dashboard");
+
+      const user = result.payload.user;
+
+      if (user.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
     }
   };
 
+  const user = useAppSelector((state) => state.auth.user);
+
   useEffect(() => {
-    if (token) {
-      navigate("/dashboard");
+    if (token && user) {
+      if (user.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
     }
-  }, [token, navigate]);
+  }, [token, user, navigate]);
 
   useEffect(() => {
     if (error) {
@@ -66,10 +77,7 @@ const Login = () => {
           Secure Digital Banking
         </p>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-5"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Email */}
 
           <div>
@@ -100,11 +108,7 @@ const Login = () => {
 
             <div className="relative">
               <input
-                type={
-                  showPassword
-                    ? "text"
-                    : "password"
-                }
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 {...register("password")}
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 pr-12 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
@@ -112,16 +116,10 @@ const Login = () => {
 
               <button
                 type="button"
-                onClick={() =>
-                  setShowPassword(!showPassword)
-                }
+                onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-600"
               >
-                {showPassword ? (
-                  <FiEyeOff size={20} />
-                ) : (
-                  <FiEye size={20} />
-                )}
+                {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
               </button>
             </div>
 
@@ -136,11 +134,7 @@ const Login = () => {
 
           <div className="flex items-center justify-between">
             <label className="flex items-center gap-2 text-sm text-gray-600">
-              <input
-                type="checkbox"
-                className="rounded"
-              />
-
+              <input type="checkbox" className="rounded" />
               Remember Me
             </label>
 
@@ -159,9 +153,7 @@ const Login = () => {
             disabled={loading}
             className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {loading
-              ? "Signing In..."
-              : "Sign In"}
+            {loading ? "Signing In..." : "Sign In"}
           </button>
 
           {/* Register */}

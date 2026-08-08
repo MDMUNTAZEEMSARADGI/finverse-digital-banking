@@ -4,19 +4,21 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
 import { fetchTransactions } from "../redux/transactionThunk";
 
-import {
-  TransactionCard,
-  TransactionModal,
-} from "../components";
+import { fetchAccounts } from "../../account/redux/accountThunk";
+
+import { useSearchParams } from "react-router-dom";
+
+import { TransactionCard, TransactionModal } from "../components";
 
 const Transactions = () => {
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
 
-  const { transactions, loading, error } =
-    useAppSelector((state) => state.transactions);
+  const { transactions, loading, error } = useAppSelector(
+    (state) => state.transactions,
+  );
 
-  const [modalOpen, setModalOpen] =
-    useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [modalType, setModalType] = useState<
     "deposit" | "withdraw" | "transfer"
@@ -24,29 +26,38 @@ const Transactions = () => {
 
   useEffect(() => {
     dispatch(fetchTransactions());
-  }, [dispatch]);
+    dispatch(fetchAccounts());
+
+    const type = searchParams.get("type");
+
+    if (type === "deposit") {
+      setModalType("deposit");
+      setModalOpen(true);
+    }
+
+    if (type === "withdraw") {
+      setModalType("withdraw");
+      setModalOpen(true);
+    }
+
+    if (type === "transfer") {
+      setModalType("transfer");
+      setModalOpen(true);
+    }
+  }, [dispatch, searchParams]);
 
   return (
     <div className="space-y-8">
-
       {/* Header */}
 
       <div className="flex items-center justify-between">
-
         <div>
+          <h1 className="text-3xl font-bold">Transactions</h1>
 
-          <h1 className="text-3xl font-bold">
-            Transactions
-          </h1>
-
-          <p className="text-gray-500">
-            Manage all your transactions.
-          </p>
-
+          <p className="text-gray-500">Manage all your transactions.</p>
         </div>
 
         <div className="flex gap-3">
-
           <button
             onClick={() => {
               setModalType("deposit");
@@ -76,9 +87,7 @@ const Transactions = () => {
           >
             Transfer
           </button>
-
         </div>
-
       </div>
 
       {/* Loading */}
@@ -92,52 +101,31 @@ const Transactions = () => {
       {/* Error */}
 
       {!loading && error && (
-        <div className="rounded-lg bg-red-100 p-4 text-red-700">
-          {error}
-        </div>
+        <div className="rounded-lg bg-red-100 p-4 text-red-700">{error}</div>
       )}
 
       {/* Table */}
 
       {!loading && !error && (
         <div className="overflow-hidden rounded-xl bg-white shadow">
-
           <table className="w-full">
-
             <thead className="bg-gray-100">
-
               <tr>
+                <th className="px-4 py-3 text-left">Date</th>
 
-                <th className="px-4 py-3 text-left">
-                  Date
-                </th>
+                <th className="px-4 py-3 text-left">Type</th>
 
-                <th className="px-4 py-3 text-left">
-                  Type
-                </th>
+                <th className="px-4 py-3 text-left">Amount</th>
 
-                <th className="px-4 py-3 text-left">
-                  Amount
-                </th>
+                <th className="px-4 py-3 text-left">Status</th>
 
-                <th className="px-4 py-3 text-left">
-                  Status
-                </th>
+                <th className="px-4 py-3 text-left">Reference</th>
 
-                <th className="px-4 py-3 text-left">
-                  Reference
-                </th>
-
-                <th className="px-4 py-3 text-left">
-                  Action
-                </th>
-
+                <th className="px-4 py-3 text-left">Action</th>
               </tr>
-
             </thead>
 
             <tbody>
-
               {transactions.length > 0 ? (
                 transactions.map((transaction) => (
                   <TransactionCard
@@ -147,21 +135,13 @@ const Transactions = () => {
                 ))
               ) : (
                 <tr>
-
-                  <td
-                    colSpan={6}
-                    className="py-8 text-center text-gray-500"
-                  >
+                  <td colSpan={6} className="py-8 text-center text-gray-500">
                     No transactions found.
                   </td>
-
                 </tr>
               )}
-
             </tbody>
-
           </table>
-
         </div>
       )}
 
@@ -172,7 +152,6 @@ const Transactions = () => {
         type={modalType}
         onClose={() => setModalOpen(false)}
       />
-
     </div>
   );
 };

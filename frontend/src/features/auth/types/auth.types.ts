@@ -1,11 +1,17 @@
 export interface User {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
   role: "CUSTOMER" | "ADMIN";
+  kycStatus: string;
+  isActive: boolean;
+  emailVerified: boolean;
+  lastLoginAt: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
-
 export interface LoginRequest {
   email: string;
   password: string;

@@ -1,32 +1,12 @@
-import type { LucideIcon } from "lucide-react";
+import type { Account } from "../../account/types/account.types";
+import type { Transaction } from "../../transaction/types/transaction.types";
+import type { Notification } from "../../notification/types/notification.types";
+import type { Kyc } from "../../kyc/types/kyc.types";
 
-export interface StatsCardProps {
-  title: string;
-  value: string | number;
-  icon: LucideIcon;
-  color: string;
-  change?: string;
-}
-
-export interface AccountCardProps {
-  accountType: string;
-  accountNumber: string;
-  balance: string;
-  status: string;
-}
-
-export interface Transaction {
-  id: string;
-  date: string;
-  type: "DEPOSIT" | "WITHDRAW" | "TRANSFER";
-  amount: number;
-  status: "SUCCESS" | "PENDING" | "FAILED";
-}
-
-export interface Notification {
-  id: string;
-  title: string;
-  message: string;
-  time: string;
-  read: boolean;
+export interface DashboardData {
+  accounts: Account[];
+  transactions: Transaction[];
+  notifications: Notification[];
+  kyc: Kyc | null;
+  totalBalance: number;
 }
