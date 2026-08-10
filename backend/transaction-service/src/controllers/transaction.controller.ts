@@ -3,8 +3,8 @@ import {
   depositMoney,
   withdrawMoney,
   transferMoney,
-    getTransactionHistory,
-  getTransactionById
+  getTransactionHistory,
+  getTransactionById,
 } from "../services/transaction.service";
 
 export const deposit = async (req: Request, res: Response) => {
@@ -79,7 +79,8 @@ export const getHistory = async (req: Request, res: Response) => {
 
 export const getTransaction = async (req: Request, res: Response) => {
   try {
-    const transaction = await getTransactionById(req.params.id);
+    const userId = req.params.userId as string;
+    const transaction = await getTransactionById(userId);
 
     res.json({
       success: true,
