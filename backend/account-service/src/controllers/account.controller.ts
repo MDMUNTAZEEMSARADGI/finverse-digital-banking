@@ -9,7 +9,7 @@ import {
   deposit,
   withdraw,
   getAccountById,
-    getAccountsForUser,
+  getAccountsForUser,
 } from "../services/account.service";
 
 export const openAccount = async (req: Request, res: Response) => {
@@ -154,11 +154,13 @@ export const getInternalAccount = async (
 };
 
 export const getAccountsByUser = async (req: Request, res: Response) => {
-  const accounts = await getAccountsForUser(req.params.userId);
+  const userId = req.params.userId as string;
+
+  const accounts = await getAccountsForUser(userId);
+  // const accounts = await getAccountsForUser(req.params.userId);
 
   res.json({
     success: true,
     accounts,
   });
 };
-
