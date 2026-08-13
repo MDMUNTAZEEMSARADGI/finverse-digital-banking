@@ -19,6 +19,10 @@ export const kafka = new Kafka({
   },
 });
 
+console.log("KAFKA_BROKER:", process.env.KAFKA_BROKER);
+console.log("KAFKA_USERNAME:", process.env.KAFKA_USERNAME);
+console.log("KAFKA_CA_CERT exists:", !!process.env.KAFKA_CA_CERT);
+
 // import { Kafka } from "kafkajs";
 // import fs from "fs";
 // import path from "path";
