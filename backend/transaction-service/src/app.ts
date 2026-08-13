@@ -9,7 +9,15 @@ import statementRoutes from "./routes/statement.routes";
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://finverse-phi.vercel.app/",
+    ],
+    credentials: true,
+  })
+);
 app.use(helmet());
 app.use(morgan("dev"));
 
