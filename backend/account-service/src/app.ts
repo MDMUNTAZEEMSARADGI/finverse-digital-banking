@@ -6,7 +6,15 @@ import accountRoutes from "./routes/account.routes";
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://finverse-phi.vercel.app/",
+    ],
+    credentials: true,
+  })
+);
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
