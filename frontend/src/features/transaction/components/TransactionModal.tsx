@@ -125,7 +125,7 @@ const TransactionModal = ({ open, type, onClose }: Props) => {
 
           {accounts.map((account) => (
             <option key={account.id} value={account.id}>
-              {account.type} • {account.accountNumber} • ₹
+              {account.accountType} • {account.accountNumber} • ₹
               {account.balance.toLocaleString()}
             </option>
           ))}
@@ -146,7 +146,7 @@ const TransactionModal = ({ open, type, onClose }: Props) => {
                 .filter((a) => a.id !== fromAccountId)
                 .map((account) => (
                   <option key={account.id} value={account.id}>
-                    {account.type} • {account.accountNumber} • ₹
+                    {account.accountType} • {account.accountNumber} • ₹
                     {account.balance.toLocaleString()}
                   </option>
                 ))}

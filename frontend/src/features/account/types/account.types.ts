@@ -14,6 +14,7 @@ export interface Account {
   accountType: AccountType;
   balance: number;
   status: AccountStatus;
+  ifscCode: string;
   createdAt: string;
 }
 

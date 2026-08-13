@@ -44,7 +44,7 @@ const Navbar = () => {
           <UserCircle size={36} />
 
           <div className="hidden text-left md:block">
-            <p className="font-semibold">{user?.name || "User"}</p>
+            <p className="font-semibold">{user?.firstName || "User"}</p>
 
             <p className="text-xs text-gray-500">{user?.role || "CUSTOMER"}</p>
           </div>

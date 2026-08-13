@@ -5,7 +5,6 @@ import {
   Users,
   Landmark,
   ArrowLeftRight,
-  LogOut,
 } from "lucide-react";
 import LogoutButton from "../features/auth/pages/LogoutButton";
 

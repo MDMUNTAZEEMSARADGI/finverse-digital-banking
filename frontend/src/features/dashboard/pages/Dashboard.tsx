@@ -1,12 +1,11 @@
 import {
   Wallet,
-  ArrowDownCircle,
-  ArrowUpCircle,
+
   ShieldCheck,
   PlusCircle,
   Landmark,
   Send,
-  PiggyBank,
+
 } from "lucide-react";
 
 import {
@@ -95,7 +94,8 @@ const Dashboard = () => {
               key={account.id}
               accountType={account.accountType}
               accountNumber={account.accountNumber}
-              balance={`₹${account.balance.toLocaleString("en-IN")}`}
+              // balance={`₹${account.balance.toLocaleString("en-IN")}`}
+              balance={account.balance}
               status={account.status}
             />
           ))}

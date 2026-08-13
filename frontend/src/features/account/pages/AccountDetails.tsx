@@ -18,7 +18,9 @@ const AccountDetails = () => {
       <h1 className="text-3xl font-bold">Account Details</h1>
 
       <div className="rounded-xl bg-white p-8 shadow">
-        <h2 className="text-2xl font-semibold">{account.type} Account</h2>
+        <h2 className="text-2xl font-semibold">
+          {account.accountType} Account
+        </h2>
 
         <div className="mt-6 space-y-4">
           <div>
