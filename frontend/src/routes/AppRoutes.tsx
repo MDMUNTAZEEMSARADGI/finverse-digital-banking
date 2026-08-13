@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "../features/auth/pages/Login";
 import Register from "../features/auth/pages/Register";
@@ -25,6 +25,13 @@ import PublicRoute from "./PublicRoute";
 const AppRoutes = () => {
   return (
     <Routes>
+
+
+      {/* ROOT */}
+      <Route
+        path="/"
+        element={<Navigate to="/login" replace />}
+      />
 
       {/* ========================= */}
       {/* PUBLIC ROUTES */}
